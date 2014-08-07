@@ -10,7 +10,7 @@ Stage 7: Read all image files from directory, build a set of divs referencing th
 
 */
 
-var path = '/images'
+var path = 'images/'
 
 var imageSet = {
 	image1: 'choc1.jpeg',
@@ -21,8 +21,11 @@ var imageSet = {
 };
 
 function buildCarousel (images) {
-	for (image in images) {
-		console.log(images[image])
+	var count = 0;
+	for (var image in images) {
+		divStr = "<div class='image' id='pic" + count + "''><img src='" + path + images[image] + "'></div>"
+		console.log(divStr);
+		$('#carousel-frame').append(divStr);
 	}
 }
 
