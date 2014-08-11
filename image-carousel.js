@@ -26,9 +26,11 @@ var imageIndex;
 
 // Build a set of hidden divs for each image in the object that is passed in.
 function buildCarousel (images) {
+	var divStr;
+
 	imageCount = 0;
 	for (var image in images) {
-		divStr = "<div class='image' id='pic" + imageCount + "' style='display:none'><img src='" + path + images[image] + "'></div>"
+		divStr = "<div class='images' id='pic" + imageCount + "' style='display:none'><img src='" + path + images[image] + "'></div>"
 		console.log(divStr);
 		$('#carousel-frame').append(divStr);
 		imageCount++;
@@ -36,12 +38,31 @@ function buildCarousel (images) {
 	
 	$('#pic0').show(); // show the first image
 	imageIndex = 0; // set the index to 0, as the first image is shown
+
+	buildControls(); // Build the arrows and dot controls for the carousel
+}
+
+// Builds a set of divs to control the display of the images, including prev next arrows and dots for each image
+function buildControls () {
+	var divStr;
+
+	$('#carousel-controls').append("<div id='prev' class='arrows'><img src='grey-arrow-left.png' class='buttons'></bu>");
+
+	for (i=0; i<imageCount; i++) {
+		divStr = "<div class='dots' id='dot" + i + "'></div>"
+		$('#carousel-controls').append(divStr);
+	}
+
+	$('#carousel-controls').append("<div id='next' class='arrows'><img src='grey-arrow-right.png' class='buttons'></div>");
+
+	$('#dot0').css('background-color','white');
+
 }
 
 // Show the image at the index that is passed in. Hide all other images.
 function showImage(index) {
 	var count = 0;
-	$('.image').each(function() {
+	$('.images').each(function() {
 		if (count === index) {
 			$(this).show();
 		}
@@ -50,8 +71,25 @@ function showImage(index) {
 		}
 		count++;
 	});
+
+	highlightDot(index);
 }
 
+// Show the image at the index that is passed in. Hide all other images.
+function highlightDot(index) {
+	var count = 0;
+	$('.dots').each(function() {
+		if (count === index) {
+			$(this).css('background-color','white');
+		}
+		else {
+			$(this).css('background-color','grey');
+		}
+		count++;
+	});
+}
+
+// Shows the previous or next image by calling the appropriate function, depending on which arrow was clicked
 function prevnextImage(div) {
 	if ($(div).attr('id') === 'prev') {
 		prevImage();
@@ -64,6 +102,7 @@ function prevnextImage(div) {
 	}
 }
 
+// Shows the previous image
 function prevImage() {
 	if (imageIndex === 0) {
 		imageIndex = imageCount-1;
@@ -72,9 +111,9 @@ function prevImage() {
 		imageIndex--;
 	}
 	showImage(imageIndex);
-	console.log(imageIndex);
 }
 
+// Shows the next image
 function nextImage() {
 	if (imageIndex === (imageCount-1)) {
 		imageIndex = 0;
@@ -83,16 +122,26 @@ function nextImage() {
 		imageIndex++;
 	}
 	showImage(imageIndex);
-	console.log(imageIndex);
 }
 
+// Main function
 $(document).ready(function(){
-	console.log("hi");
-	buildCarousel(imageSet);
-	$('.arrow').on('click',function() {
+	
+	// build the page
+	buildCarousel(imageSet); 
+
+	// add event listener for arrows
+	$('.arrows').on('click',function() {
 		prevnextImage(this);
 	});
-	$('.arrow').hover(function() {
+
+	$('.dots').on('click',function() {
+		imageIndex = Number(($(this).attr('id')).substr(3));
+		showImage(imageIndex);
+	});	
+
+	// change mouse icon on hover over buttons
+	$('.buttons, .dots').hover(function() {
 		$(this).css('cursor','pointer');
 	});
 
