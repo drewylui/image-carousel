@@ -10,7 +10,7 @@ Stage 7: Read all image files from directory, build a set of divs referencing th
 
 */
 
-var path = 'images/'
+var path = 'images/';
 
 var imageSet = {
 	image1: 'choc1.jpeg',
@@ -20,19 +20,82 @@ var imageSet = {
 	image5: 'choc5.jpeg',
 };
 
+var imageCount;
+var imageIndex;
+
+
+// Build a set of hidden divs for each image in the object that is passed in.
 function buildCarousel (images) {
-	var count = 0;
+	imageCount = 0;
 	for (var image in images) {
-		divStr = "<div class='image' id='pic" + count + "''><img src='" + path + images[image] + "'></div>"
+		divStr = "<div class='image' id='pic" + imageCount + "' style='display:none'><img src='" + path + images[image] + "'></div>"
 		console.log(divStr);
 		$('#carousel-frame').append(divStr);
+		imageCount++;
+	}
+	
+	$('#pic0').show(); // show the first image
+	imageIndex = 0; // set the index to 0, as the first image is shown
+}
+
+// Show the image at the index that is passed in. Hide all other images.
+function showImage(index) {
+	var count = 0;
+	$('.image').each(function() {
+		if (count === index) {
+			$(this).show();
+		}
+		else {
+			$(this).hide();
+		}
+		count++;
+	});
+}
+
+function prevnextImage(div) {
+	if ($(div).attr('id') === 'prev') {
+		prevImage();
+	}
+	else if ($(div).attr('id') === 'next') {
+		nextImage();
+	}
+	else {
+		console.log ("Can't identify prev/next div");
 	}
 }
 
+function prevImage() {
+	if (imageIndex === 0) {
+		imageIndex = imageCount-1;
+	}
+	else {
+		imageIndex--;
+	}
+	showImage(imageIndex);
+	console.log(imageIndex);
+}
+
+function nextImage() {
+	if (imageIndex === (imageCount-1)) {
+		imageIndex = 0;
+	}
+	else {
+		imageIndex++;
+	}
+	showImage(imageIndex);
+	console.log(imageIndex);
+}
 
 $(document).ready(function(){
-	console.log("hello");
+	console.log("hi");
 	buildCarousel(imageSet);
+	$('.arrow').on('click',function() {
+		prevnextImage(this);
+	});
+	$('.arrow').hover(function() {
+		$(this).css('cursor','pointer');
+	});
+
 })
 
 

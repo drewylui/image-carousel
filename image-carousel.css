@@ -1,0 +1,22 @@
+.arrow {
+	float: left;
+	border: grey 1px solid;
+	border-radius: 4px;
+	margin: 5px;
+	padding: 2px;
+}
+#carousel {
+	margin-left: auto;
+	margin-right: auto;
+	width: 800px;	
+}
+#carousel-frame {
+	margin-left: auto;
+	margin-right: auto;
+	width: 300px;
+}
+#carousel-controls {
+	margin-left: auto;
+	margin-right: auto;
+	width: 150px;
+}
