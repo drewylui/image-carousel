@@ -156,6 +156,12 @@ $(document).ready(function(){
 		$(this).css('cursor','pointer');
 	});
 
+	$("html").on('keydown',function(event) {	
+		if (event.keyCode===27) {
+			clearTimeout(timeoutId);
+		}
+	});	
+
 	slideshow();
 
 })
