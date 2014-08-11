@@ -23,6 +23,9 @@ var imageSet = {
 var imageCount;
 var imageIndex;
 
+var timeoutId;
+var slideshowSpeed = 2000;
+var fadeInSpeed = 1000;
 
 // Build a set of hidden divs for each image in the object that is passed in.
 function buildCarousel (images) {
@@ -64,7 +67,7 @@ function showImage(index) {
 	var count = 0;
 	$('.images').each(function() {
 		if (count === index) {
-			$(this).show();
+			$(this).fadeIn(fadeInSpeed);
 		}
 		else {
 			$(this).hide();
@@ -124,9 +127,17 @@ function nextImage() {
 	showImage(imageIndex);
 }
 
+// start a slideshow that shows images in sequence
+function slideshow () {
+	timeoutId = setTimeout(function (){
+		nextImage();
+		slideshow();
+	}, slideshowSpeed) 
+} 
+
 // Main function
 $(document).ready(function(){
-	
+
 	// build the page
 	buildCarousel(imageSet); 
 
@@ -144,6 +155,8 @@ $(document).ready(function(){
 	$('.buttons, .dots').hover(function() {
 		$(this).css('cursor','pointer');
 	});
+
+	slideshow();
 
 })
 
