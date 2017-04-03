@@ -1,7 +1,7 @@
 image-carousel
 ==============
 
-**Deprecated in favour of this repository: [code-sydney repository] (https://github.com/drewylui/code-sydney)**
+**Deprecated in favour of this repository: [code-sydney repository](https://github.com/drewylui/code-sydney)**
 
 Image Carousel/Slider project for Odin Project. Week 4 exercise: http://codesydney.com/schedule/  
 
